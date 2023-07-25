@@ -1,0 +1,54 @@
+{
+	"name": "json_copy_review",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "json_copy"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "json_copy_review.json",
+				"container": "datafactory20230718"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"review_id": {
+					"type": "string"
+				},
+				"user_id": {
+					"type": "string"
+				},
+				"business_id": {
+					"type": "string"
+				},
+				"stars": {
+					"type": "number"
+				},
+				"useful": {
+					"type": "integer"
+				},
+				"funny": {
+					"type": "integer"
+				},
+				"cool": {
+					"type": "integer"
+				},
+				"text": {
+					"type": "string"
+				},
+				"date": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,41 @@
+{
+	"name": "json_source_tip",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureFileStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "json_source"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"fileName": "yelp_academic_dataset_tip.json"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"user_id": {
+					"type": "string"
+				},
+				"business_id": {
+					"type": "string"
+				},
+				"text": {
+					"type": "string"
+				},
+				"date": {
+					"type": "string"
+				},
+				"compliment_count": {
+					"type": "integer"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

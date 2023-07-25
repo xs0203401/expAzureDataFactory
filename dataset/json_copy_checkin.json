@@ -1,0 +1,33 @@
+{
+	"name": "json_copy_checkin",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "json_copy"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "json_copy_checkin.json",
+				"container": "datafactory20230718"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"business_id": {
+					"type": "string"
+				},
+				"date": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

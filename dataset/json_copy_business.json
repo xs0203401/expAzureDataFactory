@@ -1,0 +1,166 @@
+{
+	"name": "json_copy_business",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "json_copy"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "json_copy_business.json",
+				"container": "datafactory20230718"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"business_id": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"address": {
+					"type": "string"
+				},
+				"city": {
+					"type": "string"
+				},
+				"state": {
+					"type": "string"
+				},
+				"postal_code": {
+					"type": "string"
+				},
+				"latitude": {
+					"type": "number"
+				},
+				"longitude": {
+					"type": "number"
+				},
+				"stars": {
+					"type": "number"
+				},
+				"review_count": {
+					"type": "integer"
+				},
+				"is_open": {
+					"type": "integer"
+				},
+				"attributes": {
+					"type": "object",
+					"properties": {
+						"ByAppointmentOnly": {
+							"type": "string"
+						},
+						"BusinessAcceptsCreditCards": {
+							"type": "string"
+						},
+						"BikeParking": {
+							"type": "string"
+						},
+						"RestaurantsPriceRange2": {
+							"type": "string"
+						},
+						"CoatCheck": {
+							"type": "string"
+						},
+						"RestaurantsTakeOut": {
+							"type": "string"
+						},
+						"RestaurantsDelivery": {
+							"type": "string"
+						},
+						"Caters": {
+							"type": "string"
+						},
+						"WiFi": {
+							"type": "string"
+						},
+						"BusinessParking": {
+							"type": "string"
+						},
+						"WheelchairAccessible": {
+							"type": "string"
+						},
+						"HappyHour": {
+							"type": "string"
+						},
+						"OutdoorSeating": {
+							"type": "string"
+						},
+						"HasTV": {
+							"type": "string"
+						},
+						"RestaurantsReservations": {
+							"type": "string"
+						},
+						"DogsAllowed": {
+							"type": "string"
+						},
+						"Alcohol": {
+							"type": "string"
+						},
+						"GoodForKids": {
+							"type": "string"
+						},
+						"RestaurantsAttire": {
+							"type": "string"
+						},
+						"Ambience": {
+							"type": "string"
+						},
+						"RestaurantsTableService": {
+							"type": "string"
+						},
+						"RestaurantsGoodForGroups": {
+							"type": "string"
+						},
+						"DriveThru": {
+							"type": "string"
+						},
+						"NoiseLevel": {
+							"type": "string"
+						}
+					}
+				},
+				"categories": {
+					"type": "string"
+				},
+				"hours": {
+					"type": "object",
+					"properties": {
+						"Monday": {
+							"type": "string"
+						},
+						"Tuesday": {
+							"type": "string"
+						},
+						"Wednesday": {
+							"type": "string"
+						},
+						"Thursday": {
+							"type": "string"
+						},
+						"Friday": {
+							"type": "string"
+						},
+						"Saturday": {
+							"type": "string"
+						},
+						"Sunday": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

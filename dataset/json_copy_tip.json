@@ -1,0 +1,42 @@
+{
+	"name": "json_copy_tip",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "json_copy"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "json_copy_tip.json",
+				"container": "datafactory20230718"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"user_id": {
+					"type": "string"
+				},
+				"business_id": {
+					"type": "string"
+				},
+				"text": {
+					"type": "string"
+				},
+				"date": {
+					"type": "string"
+				},
+				"compliment_count": {
+					"type": "integer"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

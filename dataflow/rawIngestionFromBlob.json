@@ -1,0 +1,181 @@
+{
+	"name": "rawIngestionFromBlob",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "json_copy_business",
+						"type": "DatasetReference"
+					},
+					"name": "cpyBusiness"
+				},
+				{
+					"dataset": {
+						"referenceName": "json_copy_checkin",
+						"type": "DatasetReference"
+					},
+					"name": "cpyCheckin"
+				},
+				{
+					"dataset": {
+						"referenceName": "json_copy_review",
+						"type": "DatasetReference"
+					},
+					"name": "cpyReview"
+				},
+				{
+					"dataset": {
+						"referenceName": "json_copy_tip",
+						"type": "DatasetReference"
+					},
+					"name": "cpyTip"
+				},
+				{
+					"dataset": {
+						"referenceName": "json_copy_user",
+						"type": "DatasetReference"
+					},
+					"name": "cpyUser"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "rawStage",
+						"type": "DatasetReference"
+					},
+					"name": "sinkToRawStage"
+				}
+			],
+			"transformations": [
+				{
+					"name": "joinReviewBusiness"
+				},
+				{
+					"name": "joinBusinessCheckin"
+				},
+				{
+					"name": "joinUserTip"
+				},
+				{
+					"name": "joinReviewUser"
+				},
+				{
+					"name": "ingestionCurrentUTC",
+					"description": "add column [ingestionCurrentUTC]"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          business_id as string,",
+				"          name as string,",
+				"          address as string,",
+				"          city as string,",
+				"          state as string,",
+				"          postal_code as string,",
+				"          latitude as double,",
+				"          longitude as double,",
+				"          stars as double,",
+				"          review_count as integer,",
+				"          is_open as integer,",
+				"          attributes as (ByAppointmentOnly as string, BusinessAcceptsCreditCards as string, BikeParking as string, RestaurantsPriceRange2 as string, CoatCheck as string, RestaurantsTakeOut as string, RestaurantsDelivery as string, Caters as string, WiFi as string, BusinessParking as string, WheelchairAccessible as string, HappyHour as string, OutdoorSeating as string, HasTV as string, RestaurantsReservations as string, DogsAllowed as string, Alcohol as string, GoodForKids as string, RestaurantsAttire as string, Ambience as string, RestaurantsTableService as string, RestaurantsGoodForGroups as string, DriveThru as string, NoiseLevel as string),",
+				"          categories as string,",
+				"          hours as (Monday as string, Tuesday as string, Wednesday as string, Thursday as string, Friday as string, Saturday as string, Sunday as string)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> cpyBusiness",
+				"source(output(",
+				"          business_id as string,",
+				"          date as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> cpyCheckin",
+				"source(output(",
+				"          review_id as string,",
+				"          user_id as string,",
+				"          business_id as string,",
+				"          stars as double,",
+				"          useful as integer,",
+				"          funny as integer,",
+				"          cool as integer,",
+				"          text as string,",
+				"          date as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> cpyReview",
+				"source(output(",
+				"          user_id as string,",
+				"          business_id as string,",
+				"          text as string,",
+				"          date as string,",
+				"          compliment_count as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> cpyTip",
+				"source(output(",
+				"          user_id as string,",
+				"          name as string,",
+				"          review_count as integer,",
+				"          yelping_since as string,",
+				"          useful as integer,",
+				"          funny as integer,",
+				"          cool as integer,",
+				"          elite as string,",
+				"          friends as string,",
+				"          fans as integer,",
+				"          average_stars as double,",
+				"          compliment_hot as integer,",
+				"          compliment_more as integer,",
+				"          compliment_profile as integer,",
+				"          compliment_cute as integer,",
+				"          compliment_list as integer,",
+				"          compliment_note as integer,",
+				"          compliment_plain as integer,",
+				"          compliment_cool as integer,",
+				"          compliment_funny as integer,",
+				"          compliment_writer as integer,",
+				"          compliment_photos as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> cpyUser",
+				"cpyReview, joinBusinessCheckin join(cpyReview@business_id == cpyBusiness@business_id,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinReviewBusiness",
+				"cpyBusiness, cpyCheckin join(cpyBusiness@business_id == cpyCheckin@business_id,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinBusinessCheckin",
+				"cpyUser, cpyTip join(cpyUser@user_id == cpyTip@user_id,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinUserTip",
+				"joinReviewBusiness, joinUserTip join(cpyReview@user_id == cpyUser@user_id,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinReviewUser",
+				"joinReviewUser derive(ingestionCurrentUTC = currentUTC()) ~> ingestionCurrentUTC",
+				"ingestionCurrentUTC sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sinkToRawStage"
+			]
+		}
+	}
+}
