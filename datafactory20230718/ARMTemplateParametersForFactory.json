@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "datafactory20230718"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureFileStorage1_connectionString": {
+			"value": ""
+		},
+		"FileServer1_password": {
+			"value": ""
+		},
+		"FileServer1_properties_typeProperties_host": {
+			"value": "smb://datafactory20230718:kRVVFUQId5hI12kkSaVH516m03kpBvB2ztLbcD9JgJuwkDib4kdQ3MyGq8gt2TT4Z%2BiVfThh9rh2%2BAStF6NoDw%3D%3D@datafactory20230718.file.core.windows.net/datafactory20230718"
+		},
+		"FileServer1_properties_typeProperties_userId": {
+			"value": "datafactory20230718"
+		}
+	}
+}

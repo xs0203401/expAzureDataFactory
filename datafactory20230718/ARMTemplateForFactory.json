@@ -1,0 +1,1495 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "datafactory20230718"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureFileStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureFileStorage1'"
+		},
+		"FileServer1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'FileServer1'"
+		},
+		"FileServer1_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "smb://datafactory20230718:kRVVFUQId5hI12kkSaVH516m03kpBvB2ztLbcD9JgJuwkDib4kdQ3MyGq8gt2TT4Z%2BiVfThh9rh2%2BAStF6NoDw%3D%3D@datafactory20230718.file.core.windows.net/datafactory20230718"
+		},
+		"FileServer1_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "datafactory20230718"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/FullPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "copyToBlob",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Execute Pipeline2",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Execute Pipeline1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "rawIngestionFromBlob",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-07-25T22:36:46Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/copyToBlob')]",
+				"[concat(variables('factoryId'), '/pipelines/rawIngestionFromBlob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/copyToBlob')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "json_copy_business",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureFileStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "MergeFiles"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "json_source_business",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "json_copy_business",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "json_copy_checkin",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureFileStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "MergeFiles"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "json_source_checkin",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "json_copy_checkin",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "json_copy_review",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureFileStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "MergeFiles"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "json_source_review",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "json_copy_review",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "json_copy_tip",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureFileStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "MergeFiles"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "json_source_tip",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "json_copy_tip",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "json_copy_user",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureFileStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "MergeFiles"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "json_source_user",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "json_copy_user",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-07-19T08:33:32Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/json_source_business')]",
+				"[concat(variables('factoryId'), '/datasets/json_copy_business')]",
+				"[concat(variables('factoryId'), '/datasets/json_source_checkin')]",
+				"[concat(variables('factoryId'), '/datasets/json_copy_checkin')]",
+				"[concat(variables('factoryId'), '/datasets/json_source_review')]",
+				"[concat(variables('factoryId'), '/datasets/json_copy_review')]",
+				"[concat(variables('factoryId'), '/datasets/json_source_tip')]",
+				"[concat(variables('factoryId'), '/datasets/json_copy_tip')]",
+				"[concat(variables('factoryId'), '/datasets/json_source_user')]",
+				"[concat(variables('factoryId'), '/datasets/json_copy_user')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/rawIngestionFromBlob')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data Flow rawIngestionFromBlob",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "rawIngestionFromBlob",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"cpyBusiness": {},
+									"cpyCheckin": {},
+									"cpyReview": {},
+									"cpyTip": {},
+									"cpyUser": {},
+									"sinkToRawStage": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-07-19T19:54:10Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/rawIngestionFromBlob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/json_copy_business')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "json_copy"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "json_copy_business.json",
+						"container": "datafactory20230718"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"business_id": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						},
+						"address": {
+							"type": "string"
+						},
+						"city": {
+							"type": "string"
+						},
+						"state": {
+							"type": "string"
+						},
+						"postal_code": {
+							"type": "string"
+						},
+						"latitude": {
+							"type": "number"
+						},
+						"longitude": {
+							"type": "number"
+						},
+						"stars": {
+							"type": "number"
+						},
+						"review_count": {
+							"type": "integer"
+						},
+						"is_open": {
+							"type": "integer"
+						},
+						"attributes": {
+							"type": "object",
+							"properties": {
+								"ByAppointmentOnly": {
+									"type": "string"
+								},
+								"BusinessAcceptsCreditCards": {
+									"type": "string"
+								},
+								"BikeParking": {
+									"type": "string"
+								},
+								"RestaurantsPriceRange2": {
+									"type": "string"
+								},
+								"CoatCheck": {
+									"type": "string"
+								},
+								"RestaurantsTakeOut": {
+									"type": "string"
+								},
+								"RestaurantsDelivery": {
+									"type": "string"
+								},
+								"Caters": {
+									"type": "string"
+								},
+								"WiFi": {
+									"type": "string"
+								},
+								"BusinessParking": {
+									"type": "string"
+								},
+								"WheelchairAccessible": {
+									"type": "string"
+								},
+								"HappyHour": {
+									"type": "string"
+								},
+								"OutdoorSeating": {
+									"type": "string"
+								},
+								"HasTV": {
+									"type": "string"
+								},
+								"RestaurantsReservations": {
+									"type": "string"
+								},
+								"DogsAllowed": {
+									"type": "string"
+								},
+								"Alcohol": {
+									"type": "string"
+								},
+								"GoodForKids": {
+									"type": "string"
+								},
+								"RestaurantsAttire": {
+									"type": "string"
+								},
+								"Ambience": {
+									"type": "string"
+								},
+								"RestaurantsTableService": {
+									"type": "string"
+								},
+								"RestaurantsGoodForGroups": {
+									"type": "string"
+								},
+								"DriveThru": {
+									"type": "string"
+								},
+								"NoiseLevel": {
+									"type": "string"
+								}
+							}
+						},
+						"categories": {
+							"type": "string"
+						},
+						"hours": {
+							"type": "object",
+							"properties": {
+								"Monday": {
+									"type": "string"
+								},
+								"Tuesday": {
+									"type": "string"
+								},
+								"Wednesday": {
+									"type": "string"
+								},
+								"Thursday": {
+									"type": "string"
+								},
+								"Friday": {
+									"type": "string"
+								},
+								"Saturday": {
+									"type": "string"
+								},
+								"Sunday": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/json_copy_checkin')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "json_copy"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "json_copy_checkin.json",
+						"container": "datafactory20230718"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"business_id": {
+							"type": "string"
+						},
+						"date": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/json_copy_review')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "json_copy"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "json_copy_review.json",
+						"container": "datafactory20230718"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"review_id": {
+							"type": "string"
+						},
+						"user_id": {
+							"type": "string"
+						},
+						"business_id": {
+							"type": "string"
+						},
+						"stars": {
+							"type": "number"
+						},
+						"useful": {
+							"type": "integer"
+						},
+						"funny": {
+							"type": "integer"
+						},
+						"cool": {
+							"type": "integer"
+						},
+						"text": {
+							"type": "string"
+						},
+						"date": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/json_copy_tip')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "json_copy"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "json_copy_tip.json",
+						"container": "datafactory20230718"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"user_id": {
+							"type": "string"
+						},
+						"business_id": {
+							"type": "string"
+						},
+						"text": {
+							"type": "string"
+						},
+						"date": {
+							"type": "string"
+						},
+						"compliment_count": {
+							"type": "integer"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/json_copy_user')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "json_copy"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "json_copy_user.json",
+						"container": "datafactory20230718"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"user_id": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						},
+						"review_count": {
+							"type": "integer"
+						},
+						"yelping_since": {
+							"type": "string"
+						},
+						"useful": {
+							"type": "integer"
+						},
+						"funny": {
+							"type": "integer"
+						},
+						"cool": {
+							"type": "integer"
+						},
+						"elite": {
+							"type": "string"
+						},
+						"friends": {
+							"type": "string"
+						},
+						"fans": {
+							"type": "integer"
+						},
+						"average_stars": {
+							"type": "number"
+						},
+						"compliment_hot": {
+							"type": "integer"
+						},
+						"compliment_more": {
+							"type": "integer"
+						},
+						"compliment_profile": {
+							"type": "integer"
+						},
+						"compliment_cute": {
+							"type": "integer"
+						},
+						"compliment_list": {
+							"type": "integer"
+						},
+						"compliment_note": {
+							"type": "integer"
+						},
+						"compliment_plain": {
+							"type": "integer"
+						},
+						"compliment_cool": {
+							"type": "integer"
+						},
+						"compliment_funny": {
+							"type": "integer"
+						},
+						"compliment_writer": {
+							"type": "integer"
+						},
+						"compliment_photos": {
+							"type": "integer"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/json_source_business')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureFileStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "json_source"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureFileStorageLocation",
+						"fileName": "yelp_academic_dataset_business.json"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"business_id": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						},
+						"address": {
+							"type": "string"
+						},
+						"city": {
+							"type": "string"
+						},
+						"state": {
+							"type": "string"
+						},
+						"postal_code": {
+							"type": "string"
+						},
+						"latitude": {
+							"type": "number"
+						},
+						"longitude": {
+							"type": "number"
+						},
+						"stars": {
+							"type": "number"
+						},
+						"review_count": {
+							"type": "integer"
+						},
+						"is_open": {
+							"type": "integer"
+						},
+						"attributes": {
+							"type": "object",
+							"properties": {
+								"ByAppointmentOnly": {
+									"type": "string"
+								},
+								"BusinessAcceptsCreditCards": {
+									"type": "string"
+								},
+								"BikeParking": {
+									"type": "string"
+								},
+								"RestaurantsPriceRange2": {
+									"type": "string"
+								},
+								"CoatCheck": {
+									"type": "string"
+								},
+								"RestaurantsTakeOut": {
+									"type": "string"
+								},
+								"RestaurantsDelivery": {
+									"type": "string"
+								},
+								"Caters": {
+									"type": "string"
+								},
+								"WiFi": {
+									"type": "string"
+								},
+								"BusinessParking": {
+									"type": "string"
+								},
+								"WheelchairAccessible": {
+									"type": "string"
+								},
+								"HappyHour": {
+									"type": "string"
+								},
+								"OutdoorSeating": {
+									"type": "string"
+								},
+								"HasTV": {
+									"type": "string"
+								},
+								"RestaurantsReservations": {
+									"type": "string"
+								},
+								"DogsAllowed": {
+									"type": "string"
+								},
+								"Alcohol": {
+									"type": "string"
+								},
+								"GoodForKids": {
+									"type": "string"
+								},
+								"RestaurantsAttire": {
+									"type": "string"
+								},
+								"Ambience": {
+									"type": "string"
+								},
+								"RestaurantsTableService": {
+									"type": "string"
+								},
+								"RestaurantsGoodForGroups": {
+									"type": "string"
+								},
+								"DriveThru": {
+									"type": "string"
+								},
+								"NoiseLevel": {
+									"type": "string"
+								}
+							}
+						},
+						"categories": {
+							"type": "string"
+						},
+						"hours": {
+							"type": "object",
+							"properties": {
+								"Monday": {
+									"type": "string"
+								},
+								"Tuesday": {
+									"type": "string"
+								},
+								"Wednesday": {
+									"type": "string"
+								},
+								"Thursday": {
+									"type": "string"
+								},
+								"Friday": {
+									"type": "string"
+								},
+								"Saturday": {
+									"type": "string"
+								},
+								"Sunday": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureFileStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/json_source_checkin')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureFileStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "json_source"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureFileStorageLocation",
+						"fileName": "yelp_academic_dataset_checkin.json"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"business_id": {
+							"type": "string"
+						},
+						"date": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureFileStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/json_source_review')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureFileStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "json_source"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureFileStorageLocation",
+						"fileName": "yelp_academic_dataset_review.json"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"review_id": {
+							"type": "string"
+						},
+						"user_id": {
+							"type": "string"
+						},
+						"business_id": {
+							"type": "string"
+						},
+						"stars": {
+							"type": "number"
+						},
+						"useful": {
+							"type": "integer"
+						},
+						"funny": {
+							"type": "integer"
+						},
+						"cool": {
+							"type": "integer"
+						},
+						"text": {
+							"type": "string"
+						},
+						"date": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureFileStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/json_source_tip')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureFileStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "json_source"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureFileStorageLocation",
+						"fileName": "yelp_academic_dataset_tip.json"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"user_id": {
+							"type": "string"
+						},
+						"business_id": {
+							"type": "string"
+						},
+						"text": {
+							"type": "string"
+						},
+						"date": {
+							"type": "string"
+						},
+						"compliment_count": {
+							"type": "integer"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureFileStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/json_source_user')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureFileStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "json_source"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureFileStorageLocation",
+						"fileName": "yelp_academic_dataset_user.json"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"user_id": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						},
+						"review_count": {
+							"type": "integer"
+						},
+						"yelping_since": {
+							"type": "string"
+						},
+						"useful": {
+							"type": "integer"
+						},
+						"funny": {
+							"type": "integer"
+						},
+						"cool": {
+							"type": "integer"
+						},
+						"elite": {
+							"type": "string"
+						},
+						"friends": {
+							"type": "string"
+						},
+						"fans": {
+							"type": "integer"
+						},
+						"average_stars": {
+							"type": "number"
+						},
+						"compliment_hot": {
+							"type": "integer"
+						},
+						"compliment_more": {
+							"type": "integer"
+						},
+						"compliment_profile": {
+							"type": "integer"
+						},
+						"compliment_cute": {
+							"type": "integer"
+						},
+						"compliment_list": {
+							"type": "integer"
+						},
+						"compliment_note": {
+							"type": "integer"
+						},
+						"compliment_plain": {
+							"type": "integer"
+						},
+						"compliment_cool": {
+							"type": "integer"
+						},
+						"compliment_funny": {
+							"type": "integer"
+						},
+						"compliment_writer": {
+							"type": "integer"
+						},
+						"compliment_photos": {
+							"type": "integer"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureFileStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/rawStage')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "output_raw_stage.json",
+						"container": "datafactory20230718"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureFileStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureFileStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureFileStorage1_connectionString')]",
+					"fileShare": "datafactory20230718"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FileServer1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "FileServer",
+				"typeProperties": {
+					"host": "[parameters('FileServer1_properties_typeProperties_host')]",
+					"userId": "[parameters('FileServer1_properties_typeProperties_userId')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('FileServer1_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/rawIngestionFromBlob')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "json_copy_business",
+								"type": "DatasetReference"
+							},
+							"name": "cpyBusiness"
+						},
+						{
+							"dataset": {
+								"referenceName": "json_copy_checkin",
+								"type": "DatasetReference"
+							},
+							"name": "cpyCheckin"
+						},
+						{
+							"dataset": {
+								"referenceName": "json_copy_review",
+								"type": "DatasetReference"
+							},
+							"name": "cpyReview"
+						},
+						{
+							"dataset": {
+								"referenceName": "json_copy_tip",
+								"type": "DatasetReference"
+							},
+							"name": "cpyTip"
+						},
+						{
+							"dataset": {
+								"referenceName": "json_copy_user",
+								"type": "DatasetReference"
+							},
+							"name": "cpyUser"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "rawStage",
+								"type": "DatasetReference"
+							},
+							"name": "sinkToRawStage"
+						}
+					],
+					"transformations": [
+						{
+							"name": "joinReviewBusiness"
+						},
+						{
+							"name": "joinBusinessCheckin"
+						},
+						{
+							"name": "joinUserTip"
+						},
+						{
+							"name": "joinReviewUser"
+						},
+						{
+							"name": "ingestionCurrentUTC",
+							"description": "add column [ingestionCurrentUTC]"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          business_id as string,",
+						"          name as string,",
+						"          address as string,",
+						"          city as string,",
+						"          state as string,",
+						"          postal_code as string,",
+						"          latitude as double,",
+						"          longitude as double,",
+						"          stars as double,",
+						"          review_count as integer,",
+						"          is_open as integer,",
+						"          attributes as (ByAppointmentOnly as string, BusinessAcceptsCreditCards as string, BikeParking as string, RestaurantsPriceRange2 as string, CoatCheck as string, RestaurantsTakeOut as string, RestaurantsDelivery as string, Caters as string, WiFi as string, BusinessParking as string, WheelchairAccessible as string, HappyHour as string, OutdoorSeating as string, HasTV as string, RestaurantsReservations as string, DogsAllowed as string, Alcohol as string, GoodForKids as string, RestaurantsAttire as string, Ambience as string, RestaurantsTableService as string, RestaurantsGoodForGroups as string, DriveThru as string, NoiseLevel as string),",
+						"          categories as string,",
+						"          hours as (Monday as string, Tuesday as string, Wednesday as string, Thursday as string, Friday as string, Saturday as string, Sunday as string)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine') ~> cpyBusiness",
+						"source(output(",
+						"          business_id as string,",
+						"          date as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine') ~> cpyCheckin",
+						"source(output(",
+						"          review_id as string,",
+						"          user_id as string,",
+						"          business_id as string,",
+						"          stars as double,",
+						"          useful as integer,",
+						"          funny as integer,",
+						"          cool as integer,",
+						"          text as string,",
+						"          date as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine') ~> cpyReview",
+						"source(output(",
+						"          user_id as string,",
+						"          business_id as string,",
+						"          text as string,",
+						"          date as string,",
+						"          compliment_count as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine') ~> cpyTip",
+						"source(output(",
+						"          user_id as string,",
+						"          name as string,",
+						"          review_count as integer,",
+						"          yelping_since as string,",
+						"          useful as integer,",
+						"          funny as integer,",
+						"          cool as integer,",
+						"          elite as string,",
+						"          friends as string,",
+						"          fans as integer,",
+						"          average_stars as double,",
+						"          compliment_hot as integer,",
+						"          compliment_more as integer,",
+						"          compliment_profile as integer,",
+						"          compliment_cute as integer,",
+						"          compliment_list as integer,",
+						"          compliment_note as integer,",
+						"          compliment_plain as integer,",
+						"          compliment_cool as integer,",
+						"          compliment_funny as integer,",
+						"          compliment_writer as integer,",
+						"          compliment_photos as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine') ~> cpyUser",
+						"cpyReview, joinBusinessCheckin join(cpyReview@business_id == cpyBusiness@business_id,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> joinReviewBusiness",
+						"cpyBusiness, cpyCheckin join(cpyBusiness@business_id == cpyCheckin@business_id,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> joinBusinessCheckin",
+						"cpyUser, cpyTip join(cpyUser@user_id == cpyTip@user_id,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> joinUserTip",
+						"joinReviewBusiness, joinUserTip join(cpyReview@user_id == cpyUser@user_id,",
+						"     joinType:'left',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> joinReviewUser",
+						"joinReviewUser derive(ingestionCurrentUTC = currentUTC()) ~> ingestionCurrentUTC",
+						"ingestionCurrentUTC sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sinkToRawStage"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/json_copy_business')]",
+				"[concat(variables('factoryId'), '/datasets/json_copy_checkin')]",
+				"[concat(variables('factoryId'), '/datasets/json_copy_review')]",
+				"[concat(variables('factoryId'), '/datasets/json_copy_tip')]",
+				"[concat(variables('factoryId'), '/datasets/json_copy_user')]",
+				"[concat(variables('factoryId'), '/datasets/rawStage')]"
+			]
+		}
+	]
+}
