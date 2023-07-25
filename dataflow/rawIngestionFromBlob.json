@@ -43,7 +43,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "rawStage",
+						"referenceName": "json_rawStage",
 						"type": "DatasetReference"
 					},
 					"name": "sinkToRawStage"

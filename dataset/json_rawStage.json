@@ -1,5 +1,5 @@
 {
-	"name": "rawStage",
+	"name": "json_rawStage",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
