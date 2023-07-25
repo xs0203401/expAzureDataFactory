@@ -11,6 +11,9 @@
 		"AzureFileStorage1_connectionString": {
 			"value": ""
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"value": ""
+		},
 		"FileServer1_password": {
 			"value": ""
 		},

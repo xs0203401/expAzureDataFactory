@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureFileStorage1'"
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
 		"FileServer1_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'FileServer1'"
@@ -829,6 +833,30 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/json_rawStage')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "output_raw_stage.json",
+						"container": "datafactory20230718"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/json_source_business')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1232,30 +1260,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/rawStage')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "output_raw_stage.json",
-						"container": "datafactory20230718"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1278,6 +1282,19 @@
 				"typeProperties": {
 					"connectionString": "[parameters('AzureFileStorage1_connectionString')]",
 					"fileShare": "datafactory20230718"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -1347,7 +1364,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "rawStage",
+								"referenceName": "json_rawStage",
 								"type": "DatasetReference"
 							},
 							"name": "sinkToRawStage"
@@ -1488,7 +1505,7 @@
 				"[concat(variables('factoryId'), '/datasets/json_copy_review')]",
 				"[concat(variables('factoryId'), '/datasets/json_copy_tip')]",
 				"[concat(variables('factoryId'), '/datasets/json_copy_user')]",
-				"[concat(variables('factoryId'), '/datasets/rawStage')]"
+				"[concat(variables('factoryId'), '/datasets/json_rawStage')]"
 			]
 		}
 	]
