@@ -68,6 +68,7 @@
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "Cannot connect to SQL Database. Please contact SQL server team for further support. Server: 'datafactory20230725sql.database.windows.net', Database: 'datafactory_sql', User: 'serveradmin'. Check the linked service configuration is correct, and make sure the SQL Database firewall allows the integration runtime to access.\nCannot open server 'datafactory20230725sql' requested by the login. Client with IP address '20.37.155.18' is not allowed to access the server.  To enable access, use the Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect., SqlErrorNumber=40615,Class=14,State=1,\n Activity ID: c170f232-5058-4511-bf6c-d509027cb278.",
 				"annotations": [],
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
@@ -933,591 +934,397 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/copyToBlob')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/yelp_business')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "json_copy_business",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureFileStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "MergeFiles"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "json_source_business",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "json_copy_business",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "json_copy_checkin",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureFileStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "MergeFiles"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "json_source_checkin",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "json_copy_checkin",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "json_copy_review",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureFileStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "MergeFiles"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "json_source_review",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "json_copy_review",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "json_copy_tip",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureFileStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "MergeFiles"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "json_source_tip",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "json_copy_tip",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "json_copy_user",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureFileStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "MergeFiles"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "json_source_user",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "json_copy_user",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "BlobJsonProcess"
+					"name": "sql_yelp"
 				},
 				"annotations": [],
-				"lastPublishTime": "2023-07-19T08:33:32Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/json_source_business')]",
-				"[concat(variables('factoryId'), '/datasets/json_copy_business')]",
-				"[concat(variables('factoryId'), '/datasets/json_source_checkin')]",
-				"[concat(variables('factoryId'), '/datasets/json_copy_checkin')]",
-				"[concat(variables('factoryId'), '/datasets/json_source_review')]",
-				"[concat(variables('factoryId'), '/datasets/json_copy_review')]",
-				"[concat(variables('factoryId'), '/datasets/json_source_tip')]",
-				"[concat(variables('factoryId'), '/datasets/json_copy_tip')]",
-				"[concat(variables('factoryId'), '/datasets/json_source_user')]",
-				"[concat(variables('factoryId'), '/datasets/json_copy_user')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/rawIngestionFromBlob')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "business_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "address",
+						"type": "nvarchar"
+					},
+					{
+						"name": "city",
+						"type": "nvarchar"
+					},
+					{
+						"name": "state",
+						"type": "nvarchar"
+					},
+					{
+						"name": "postal_code",
+						"type": "nvarchar"
+					},
+					{
+						"name": "latitude",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "longitude",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "stars",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "review_count",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "is_open",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "attributes",
+						"type": "nvarchar"
+					},
+					{
+						"name": "categories",
+						"type": "nvarchar"
+					},
+					{
+						"name": "hours",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ingestUTC",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
 				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "json_copy_business",
-								"type": "DatasetReference"
-							},
-							"name": "cpyBusiness"
-						},
-						{
-							"dataset": {
-								"referenceName": "json_copy_checkin",
-								"type": "DatasetReference"
-							},
-							"name": "cpyCheckin"
-						},
-						{
-							"dataset": {
-								"referenceName": "json_copy_review",
-								"type": "DatasetReference"
-							},
-							"name": "cpyReview"
-						},
-						{
-							"dataset": {
-								"referenceName": "json_copy_tip",
-								"type": "DatasetReference"
-							},
-							"name": "cpyTip"
-						},
-						{
-							"dataset": {
-								"referenceName": "json_copy_user",
-								"type": "DatasetReference"
-							},
-							"name": "cpyUser"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "json_rawStage",
-								"type": "DatasetReference"
-							},
-							"name": "sinkToRawStage"
-						}
-					],
-					"transformations": [
-						{
-							"name": "joinReviewBusiness"
-						},
-						{
-							"name": "joinBusinessCheckin"
-						},
-						{
-							"name": "joinUserTip"
-						},
-						{
-							"name": "joinReviewUser"
-						},
-						{
-							"name": "ingestionCurrentUTC",
-							"description": "add column [ingestionCurrentUTC]"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          business_id as string,",
-						"          name as string,",
-						"          address as string,",
-						"          city as string,",
-						"          state as string,",
-						"          postal_code as string,",
-						"          latitude as double,",
-						"          longitude as double,",
-						"          stars as double,",
-						"          review_count as integer,",
-						"          is_open as integer,",
-						"          attributes as (ByAppointmentOnly as string, BusinessAcceptsCreditCards as string, BikeParking as string, RestaurantsPriceRange2 as string, CoatCheck as string, RestaurantsTakeOut as string, RestaurantsDelivery as string, Caters as string, WiFi as string, BusinessParking as string, WheelchairAccessible as string, HappyHour as string, OutdoorSeating as string, HasTV as string, RestaurantsReservations as string, DogsAllowed as string, Alcohol as string, GoodForKids as string, RestaurantsAttire as string, Ambience as string, RestaurantsTableService as string, RestaurantsGoodForGroups as string, DriveThru as string, NoiseLevel as string),",
-						"          categories as string,",
-						"          hours as (Monday as string, Tuesday as string, Wednesday as string, Thursday as string, Friday as string, Saturday as string, Sunday as string)",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     documentForm: 'documentPerLine') ~> cpyBusiness",
-						"source(output(",
-						"          business_id as string,",
-						"          date as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     documentForm: 'documentPerLine') ~> cpyCheckin",
-						"source(output(",
-						"          review_id as string,",
-						"          user_id as string,",
-						"          business_id as string,",
-						"          stars as double,",
-						"          useful as integer,",
-						"          funny as integer,",
-						"          cool as integer,",
-						"          text as string,",
-						"          date as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     documentForm: 'documentPerLine') ~> cpyReview",
-						"source(output(",
-						"          user_id as string,",
-						"          business_id as string,",
-						"          text as string,",
-						"          date as string,",
-						"          compliment_count as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     documentForm: 'documentPerLine') ~> cpyTip",
-						"source(output(",
-						"          user_id as string,",
-						"          name as string,",
-						"          review_count as integer,",
-						"          yelping_since as string,",
-						"          useful as integer,",
-						"          funny as integer,",
-						"          cool as integer,",
-						"          elite as string,",
-						"          friends as string,",
-						"          fans as integer,",
-						"          average_stars as double,",
-						"          compliment_hot as integer,",
-						"          compliment_more as integer,",
-						"          compliment_profile as integer,",
-						"          compliment_cute as integer,",
-						"          compliment_list as integer,",
-						"          compliment_note as integer,",
-						"          compliment_plain as integer,",
-						"          compliment_cool as integer,",
-						"          compliment_funny as integer,",
-						"          compliment_writer as integer,",
-						"          compliment_photos as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     documentForm: 'documentPerLine') ~> cpyUser",
-						"cpyReview, joinBusinessCheckin join(cpyReview@business_id == cpyBusiness@business_id,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinReviewBusiness",
-						"cpyBusiness, cpyCheckin join(cpyBusiness@business_id == cpyCheckin@business_id,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinBusinessCheckin",
-						"cpyUser, cpyTip join(cpyUser@user_id == cpyTip@user_id,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinUserTip",
-						"joinReviewBusiness, joinUserTip join(cpyReview@user_id == cpyUser@user_id,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinReviewUser",
-						"joinReviewUser derive(ingestionCurrentUTC = currentUTC()) ~> ingestionCurrentUTC",
-						"ingestionCurrentUTC sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sinkToRawStage"
-					]
+					"schema": "dbo",
+					"table": "yelp_business"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/json_copy_business')]",
-				"[concat(variables('factoryId'), '/datasets/json_copy_checkin')]",
-				"[concat(variables('factoryId'), '/datasets/json_copy_review')]",
-				"[concat(variables('factoryId'), '/datasets/json_copy_tip')]",
-				"[concat(variables('factoryId'), '/datasets/json_copy_user')]",
-				"[concat(variables('factoryId'), '/datasets/json_rawStage')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/rawIngestionFromBlob')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/yelp_checkin')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "Data Flow rawIngestionFromBlob",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "rawIngestionFromBlob",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"cpyBusiness": {},
-									"cpyCheckin": {},
-									"cpyReview": {},
-									"cpyTip": {},
-									"cpyUser": {},
-									"sinkToRawStage": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "BlobJsonProcess"
+					"name": "sql_yelp"
 				},
 				"annotations": [],
-				"lastPublishTime": "2023-07-19T19:54:10Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/rawIngestionFromBlob')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FullPipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
+				"type": "AzureSqlTable",
+				"schema": [
 					{
-						"name": "Execute Pipeline1",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "copyToBlob",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
+						"name": "business_id",
+						"type": "nvarchar"
 					},
 					{
-						"name": "Execute Pipeline2",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "Execute Pipeline1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "rawIngestionFromBlob",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
+						"name": "date",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ingestUTC",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "BlobJsonProcess"
-				},
-				"annotations": [],
-				"lastPublishTime": "2023-07-25T22:36:46Z"
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "yelp_checkin"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/copyToBlob')]",
-				"[concat(variables('factoryId'), '/pipelines/rawIngestionFromBlob')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/yelp_review')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "sql_yelp"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "review_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "user_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "business_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "stars",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "useful",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "funny",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "cool",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "text",
+						"type": "nvarchar"
+					},
+					{
+						"name": "date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ingestUTC",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "yelp_review"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/yelp_tip')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "sql_yelp"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "user_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "business_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "text",
+						"type": "nvarchar"
+					},
+					{
+						"name": "date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "compliment_count",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ingestUTC",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "yelp_tip"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/yelp_user')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "sql_yelp"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "user_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "review_count",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "yelping_since",
+						"type": "nvarchar"
+					},
+					{
+						"name": "useful",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "funny",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "cool",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "elite",
+						"type": "nvarchar"
+					},
+					{
+						"name": "friends",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fans",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "average_stars",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "compliment_hot",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "compliment_more",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "compliment_profile",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "compliment_cute",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "compliment_list",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "compliment_note",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "compliment_plain",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "compliment_cool",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "compliment_funny",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "compliment_writer",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "compliment_photos",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ingestUTC",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "yelp_user"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
 			]
 		}
 	]
