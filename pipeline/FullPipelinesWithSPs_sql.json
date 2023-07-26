@@ -1,5 +1,5 @@
 {
-	"name": "FullPipeline_sql",
+	"name": "FullPipelinesWithSPs_sql",
 	"properties": {
 		"activities": [
 			{
