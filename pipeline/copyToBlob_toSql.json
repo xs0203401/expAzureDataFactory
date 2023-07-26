@@ -5,7 +5,14 @@
 			{
 				"name": "json_copy_business",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Stored procedure _ createStgTables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -54,7 +61,14 @@
 			{
 				"name": "json_copy_checkin",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Stored procedure _ createStgTables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -103,7 +117,14 @@
 			{
 				"name": "json_copy_review",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Stored procedure _ createStgTables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -152,7 +173,14 @@
 			{
 				"name": "json_copy_tip",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Stored procedure _ createStgTables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -201,7 +229,14 @@
 			{
 				"name": "json_copy_user",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Stored procedure _ createStgTables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -403,40 +438,9 @@
 				}
 			},
 			{
-				"name": "Stored procedure1",
+				"name": "Stored procedure _ createStgTables",
 				"type": "SqlServerStoredProcedure",
-				"dependsOn": [
-					{
-						"activity": "Data flow Business",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Data flow Checkin",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Data flow Review",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Data flow Tip",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Data flow User",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -444,7 +448,14 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[sp_createStgTables]"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"folder": {
