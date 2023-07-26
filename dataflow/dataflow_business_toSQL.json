@@ -1,0 +1,46 @@
+{
+	"name": "dataflow_business_toSQL",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "json_copy_business",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          business_id as string,",
+				"          name as string,",
+				"          address as string,",
+				"          city as string,",
+				"          state as string,",
+				"          postal_code as string,",
+				"          latitude as double,",
+				"          longitude as double,",
+				"          stars as double,",
+				"          review_count as integer,",
+				"          is_open as integer,",
+				"          attributes as (ByAppointmentOnly as string, BusinessAcceptsCreditCards as string, BikeParking as string, RestaurantsPriceRange2 as string, CoatCheck as string, RestaurantsTakeOut as string, RestaurantsDelivery as string, Caters as string, WiFi as string, BusinessParking as string, WheelchairAccessible as string, HappyHour as string, OutdoorSeating as string, HasTV as string, RestaurantsReservations as string, DogsAllowed as string, Alcohol as string, GoodForKids as string, RestaurantsAttire as string, Ambience as string, RestaurantsTableService as string, RestaurantsGoodForGroups as string, DriveThru as string, NoiseLevel as string),",
+				"          categories as string,",
+				"          hours as (Monday as string, Tuesday as string, Wednesday as string, Thursday as string, Friday as string, Saturday as string, Sunday as string)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> source1",
+				"source1 derive(ingestUTC = currentUTC()) ~> derivedColumn1"
+			]
+		}
+	}
+}

@@ -1,0 +1,54 @@
+{
+	"name": "dataflow_user_toSQL",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "json_copy_user",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          user_id as string,",
+				"          name as string,",
+				"          review_count as integer,",
+				"          yelping_since as string,",
+				"          useful as integer,",
+				"          funny as integer,",
+				"          cool as integer,",
+				"          elite as string,",
+				"          friends as string,",
+				"          fans as integer,",
+				"          average_stars as double,",
+				"          compliment_hot as integer,",
+				"          compliment_more as integer,",
+				"          compliment_profile as integer,",
+				"          compliment_cute as integer,",
+				"          compliment_list as integer,",
+				"          compliment_note as integer,",
+				"          compliment_plain as integer,",
+				"          compliment_cool as integer,",
+				"          compliment_funny as integer,",
+				"          compliment_writer as integer,",
+				"          compliment_photos as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> source1",
+				"source1 derive(ingestUTC = currentUTC()) ~> derivedColumn1"
+			]
+		}
+	}
+}
