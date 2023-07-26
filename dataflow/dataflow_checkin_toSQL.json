@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "json_source_checkin",
+						"referenceName": "json_copy_checkin",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
