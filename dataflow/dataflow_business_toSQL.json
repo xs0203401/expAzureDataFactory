@@ -47,7 +47,8 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> source1",
-				"source1 derive(ingestUTC = currentUTC()) ~> derivedColumn1",
+				"source1 derive(ingestUTC = currentUTC(),",
+				"          flatAttributes = flatten([attributes])) ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -86,6 +87,7 @@
 				"          stars,",
 				"          review_count,",
 				"          is_open,",
+				"          attributes = flatAttributes,",
 				"          categories",
 				"     )) ~> sink1"
 			]
