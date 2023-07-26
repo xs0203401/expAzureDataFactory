@@ -1,0 +1,34 @@
+{
+	"name": "yelp_checkin_stg",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sql_yelp/yelp_data_stg"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "business_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "date",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ingestUTC",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "stg_yelp_checkin"
+		}
+	}
+}

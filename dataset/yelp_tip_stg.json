@@ -1,0 +1,49 @@
+{
+	"name": "yelp_tip_stg",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sql_yelp/yelp_data_stg"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "user_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "business_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "text",
+				"type": "nvarchar"
+			},
+			{
+				"name": "date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "compliment_count",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ingestUTC",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "stg_yelp_tip"
+		}
+	}
+}

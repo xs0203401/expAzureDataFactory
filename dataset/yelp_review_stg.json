@@ -1,0 +1,68 @@
+{
+	"name": "yelp_review_stg",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sql_yelp/yelp_data_stg"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "review_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "user_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "business_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "stars",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "useful",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "funny",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "cool",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "text",
+				"type": "nvarchar"
+			},
+			{
+				"name": "date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ingestUTC",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "stg_yelp_review"
+		}
+	}
+}
