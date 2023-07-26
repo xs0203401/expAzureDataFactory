@@ -36,6 +36,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "BlobJsonProcess"
+		},
 		"annotations": [],
 		"lastPublishTime": "2023-07-25T22:36:46Z"
 	},

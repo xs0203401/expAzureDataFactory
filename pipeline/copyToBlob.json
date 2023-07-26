@@ -248,6 +248,9 @@
 				]
 			}
 		],
+		"folder": {
+			"name": "BlobJsonProcess"
+		},
 		"annotations": [],
 		"lastPublishTime": "2023-07-19T08:33:32Z"
 	},
