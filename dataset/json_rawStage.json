@@ -5,6 +5,9 @@
 			"referenceName": "AzureBlobStorage1",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "blob_json"
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
