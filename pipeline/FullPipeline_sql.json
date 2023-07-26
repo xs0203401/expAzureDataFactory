@@ -14,19 +14,6 @@
 					},
 					"waitOnCompletion": true
 				}
-			},
-			{
-				"name": "runSpSCD2",
-				"type": "ExecutePipeline",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "runSpSCD2",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
 			}
 		],
 		"folder": {
