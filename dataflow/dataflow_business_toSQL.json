@@ -86,9 +86,7 @@
 				"          stars,",
 				"          review_count,",
 				"          is_open,",
-				"          attributes = attributes,",
-				"          categories,",
-				"          hours = hours",
+				"          categories",
 				"     )) ~> sink1"
 			]
 		}
