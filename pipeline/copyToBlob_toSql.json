@@ -63,7 +63,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "json_copy_business",
+						"activity": "Stored procedure _ createStgTables",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -231,7 +231,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "json_copy_business",
+						"activity": "Stored procedure _ createStgTables",
 						"dependencyConditions": [
 							"Succeeded"
 						]
