@@ -119,7 +119,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "json_copy_tip",
+						"activity": "Data flow User",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -175,7 +175,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "json_copy_user",
+						"activity": "Data flow User",
 						"dependencyConditions": [
 							"Succeeded"
 						]
