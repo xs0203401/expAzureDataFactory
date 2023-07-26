@@ -1195,6 +1195,9 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
+				"folder": {
+					"name": "BlobJsonProcess"
+				},
 				"annotations": [],
 				"lastPublishTime": "2023-07-19T08:33:32Z"
 			},
@@ -1447,6 +1450,9 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
+				"folder": {
+					"name": "BlobJsonProcess"
+				},
 				"annotations": [],
 				"lastPublishTime": "2023-07-19T19:54:10Z"
 			},
@@ -1499,6 +1505,9 @@
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "BlobJsonProcess"
 				},
 				"annotations": [],
 				"lastPublishTime": "2023-07-25T22:36:46Z"
