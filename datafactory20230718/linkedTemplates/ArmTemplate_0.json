@@ -96,7 +96,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/runSpSCD2')]",
+			"name": "[concat(parameters('factoryName'), '/test_sp_runs')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -114,7 +114,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"storedProcedureName": "[[dbo].[sp_runSCD2Update]"
+							"storedProcedureName": "[[dbo].[LoadDataToBronzeTable]"
 						},
 						"linkedServiceName": {
 							"referenceName": "AzureSqlDatabase1",
