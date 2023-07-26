@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dataflow_business_toSQL",
+						"referenceName": "dataflow_checkin_toSQL",
 						"type": "DataFlowReference"
 					},
 					"compute": {
