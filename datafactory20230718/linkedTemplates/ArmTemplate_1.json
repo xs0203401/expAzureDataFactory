@@ -1520,7 +1520,7 @@
 						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "Data flow User",
+								"activity": "Stored procedure _ createStgTables",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -1578,7 +1578,7 @@
 						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "Data flow User",
+								"activity": "Stored procedure _ createStgTables",
 								"dependencyConditions": [
 									"Succeeded"
 								]
