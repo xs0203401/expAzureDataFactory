@@ -18,6 +18,12 @@
 			{
 				"name": "date",
 				"type": "nvarchar"
+			},
+			{
+				"name": "ingestUTC",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
 			}
 		],
 		"typeProperties": {

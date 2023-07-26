@@ -12,12 +12,115 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "business_id",
+				"name": "user_id",
 				"type": "nvarchar"
 			},
 			{
-				"name": "date",
+				"name": "name",
 				"type": "nvarchar"
+			},
+			{
+				"name": "review_count",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "yelping_since",
+				"type": "nvarchar"
+			},
+			{
+				"name": "useful",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "funny",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "cool",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "elite",
+				"type": "nvarchar"
+			},
+			{
+				"name": "friends",
+				"type": "nvarchar"
+			},
+			{
+				"name": "fans",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "average_stars",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "compliment_hot",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "compliment_more",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "compliment_profile",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "compliment_cute",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "compliment_list",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "compliment_note",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "compliment_plain",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "compliment_cool",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "compliment_funny",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "compliment_writer",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "compliment_photos",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ingestUTC",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
 			}
 		],
 		"typeProperties": {

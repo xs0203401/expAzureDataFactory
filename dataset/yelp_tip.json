@@ -12,12 +12,33 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
+				"name": "user_id",
+				"type": "nvarchar"
+			},
+			{
 				"name": "business_id",
 				"type": "nvarchar"
 			},
 			{
-				"name": "date",
+				"name": "text",
 				"type": "nvarchar"
+			},
+			{
+				"name": "date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "compliment_count",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ingestUTC",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
 			}
 		],
 		"typeProperties": {
