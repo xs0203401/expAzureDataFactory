@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "sql_yelp"
+			"name": "sql_yelp/yelp_data"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
