@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "yelp_user",
+						"referenceName": "yelp_user_stg",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
