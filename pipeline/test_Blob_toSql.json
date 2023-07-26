@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dataflow_review_toSQL",
+						"referenceName": "dataflow_user_toSQL",
 						"type": "DataFlowReference"
 					},
 					"compute": {
