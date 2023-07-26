@@ -1,0 +1,37 @@
+{
+	"name": "FullPipeline_sql",
+	"properties": {
+		"activities": [
+			{
+				"name": "copyToBlob_toSql",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "copyToBlob_toSql",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "runSpSCD2",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "runSpSCD2",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "BlobSqlProcess"
+		},
+		"annotations": []
+	}
+}
