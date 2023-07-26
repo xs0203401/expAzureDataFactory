@@ -1402,14 +1402,7 @@
 					{
 						"name": "json_copy_business",
 						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Stored procedure _ createStgTables",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -1460,14 +1453,7 @@
 					{
 						"name": "json_copy_checkin",
 						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Stored procedure _ createStgTables",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -1518,14 +1504,7 @@
 					{
 						"name": "json_copy_review",
 						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Stored procedure _ createStgTables",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -1576,14 +1555,7 @@
 					{
 						"name": "json_copy_tip",
 						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Stored procedure _ createStgTables",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -1634,14 +1606,7 @@
 					{
 						"name": "json_copy_user",
 						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Stored procedure _ createStgTables",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -1872,26 +1837,6 @@
 								"computeType": "General"
 							},
 							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "Stored procedure _ createStgTables",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[sp_createStgTables]"
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlDatabase1",
-							"type": "LinkedServiceReference"
 						}
 					}
 				],
