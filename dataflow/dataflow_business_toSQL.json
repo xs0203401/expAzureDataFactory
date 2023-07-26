@@ -24,6 +24,9 @@
 			"transformations": [
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -48,11 +51,30 @@
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> source1",
 				"source1 derive(ingestUTC = currentUTC()) ~> derivedColumn1",
+				"derivedColumn1 select(mapColumn(",
+				"          business_id,",
+				"          attributes,",
+				"          hours",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          business_id as string,",
-				"          date as string",
+				"          name as string,",
+				"          address as string,",
+				"          city as string,",
+				"          state as string,",
+				"          postal_code as string,",
+				"          latitude as double,",
+				"          longitude as double,",
+				"          stars as double,",
+				"          review_count as integer,",
+				"          is_open as integer,",
+				"          attributes as string,",
+				"          categories as string,",
+				"          hours as string",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -61,7 +83,16 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          business_id,",
+				"          name,",
+				"          {} = business_id,",
+				"          {} = business_id,",
+				"          {} = business_id,",
+				"          {} = business_id,",
+				"          {} = business_id",
+				"     )) ~> sink1"
 			]
 		}
 	}

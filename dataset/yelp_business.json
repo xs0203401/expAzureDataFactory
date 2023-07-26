@@ -16,7 +16,60 @@
 				"type": "nvarchar"
 			},
 			{
-				"name": "date",
+				"name": "name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "address",
+				"type": "nvarchar"
+			},
+			{
+				"name": "city",
+				"type": "nvarchar"
+			},
+			{
+				"name": "state",
+				"type": "nvarchar"
+			},
+			{
+				"name": "postal_code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "latitude",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "longitude",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "stars",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "review_count",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "is_open",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "attributes",
+				"type": "nvarchar"
+			},
+			{
+				"name": "categories",
+				"type": "nvarchar"
+			},
+			{
+				"name": "hours",
 				"type": "nvarchar"
 			}
 		],
